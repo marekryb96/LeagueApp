@@ -36,11 +36,13 @@ return
 end
 if @Heigh> 220
 begin
+rollback
 RAISERROR ('Wzrost większy niż 220 cm.',16,1)
 return
 end
 if @Weight> 130
 begin
+rollback
 RAISERROR ('Waga większa niż 130 kg.',16,1)
 return
 end
@@ -96,3 +98,33 @@ Weight = @Weight,
 Nation = @Nation
 WHERE IDPlayer = @IDPlayer
 GO
+
+
+
+CREATE TRIGGER countplayers
+ON Players
+AFTER INSERT
+AS
+count ++;
+GO
+
+
+BACKUP DATABASE League TO DISK='H:\League2.bak'
+
+use League
+
+create trigger Trig_DeletePlayer
+on Players
+after DELETE
+as
+declare @nation varchar(20)
+set @nation=(select Nation from deleted)
+if @nation in ('Poland')
+begin
+rollback
+RAISERROR ('Nie wolno usuwać zawodników z Polski!', 16, 10);
+End
+
+select * from Players
+
+drop trigger Trig_DeleteKlient
