@@ -11,9 +11,10 @@ using System.Data.SqlClient;
 
 
 
+
 namespace LeagueApp
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form 
     {
         string con = "Data Source=RYBICCY\\SQLEXPRESS;Initial Catalog=League;Integrated Security=True";
         private SqlConnection sqlConnection;
@@ -165,7 +166,44 @@ namespace LeagueApp
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //string text = dataGridView1.SelectedRows.ToString();
+            //textBox1.Text = dataGridView1.SelectedRows.ToString();
+            Int32 selectedRowCount =
+               dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount > 0)
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
+                for (int i = 0; i < selectedRowCount; i++)
+                {
+                    sb.Append("Row: ");
+                    sb.Append(dataGridView1.SelectedRows[i].Index.ToString());
+                    sb.Append(Environment.NewLine);
+                }
+
+                sb.Append("Total: " + selectedRowCount.ToString());
+                MessageBox.Show(sb.ToString(), "Selected Rows");
+            }
+        }
+
+        private void selectedRowsButton_Click(object sender, System.EventArgs e)
+        {
+            Int32 selectedRowCount =
+                dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            if (selectedRowCount > 0)
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+                for (int i = 0; i < selectedRowCount; i++)
+                {
+                    sb.Append("Row: ");
+                    sb.Append(dataGridView1.SelectedRows[i].Index.ToString());
+                    sb.Append(Environment.NewLine);
+                }
+
+                sb.Append("Total: " + selectedRowCount.ToString());
+                MessageBox.Show(sb.ToString(), "Selected Rows");
+            }
         }
 
         private void display()
